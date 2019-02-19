@@ -1,21 +1,48 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="container">
+  <div class="row row-content">
+    <div class="col-xs-12">
+      <h1>{{ dish.name }}</h1>
+      <p>{{ dish.category | titlecase }}</p>
+      <p>Spices level: {{ dish.label }}</p>
+      <img [src]="dish.image" alt="pizza-img" style="width: 150px;" />
+      <h6>{{ dish.description }}</h6>
+      <h3>{{ dish.price | currency }}</h3>
+    </div>
 
-<router-outlet></router-outlet>
+    <div class="col-xs-9 col-xs-offset-1">
+      <form (ngSubmit)="sortBy(f)" #f="ngForm">
+        <select name="choice" id="" ngModel required>
+          <option value="">Select By</option>
+          <option value="date">Date</option>
+          <option value="author">Author</option>
+          <option value="rating">Rating</option>
+        </select>
+        <button type="submit" class="btn btn-primary" [disabled]="!f.valid">
+          Sort by
+        </button>
+      </form>
+      <p *ngIf="!dish['comments']; else showComments">No comments yet!</p>
+      <div
+        #showComments
+        *ngFor="let comment of (dish.comments | sort: 'author')"
+        style="border: 1px solid black"
+        class="media"
+      >
+        <a class="media-left" href="#">
+          <img
+            src="http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640-300x300.png"
+            style="width: 30px"
+          />
+        </a>
+        <p class="pull-right">
+          <small>{{ comment.date | date }}</small>
+        </p>
+        <div class="media-body">
+          <h4 class="media-heading user_name">{{ comment.author }}</h4>
+          &nbsp; {{ comment.comment }}
+        </div>
+        <p>&nbsp; Rating: {{ comment.rating }}/5</p>
+      </div>
+    </div>
+  </div>
+</div>
