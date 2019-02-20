@@ -25,7 +25,7 @@
       <div
         #showComments
         *ngFor="let comment of (dish.comments | sort: 'author')"
-        style="border: 1px solid black"
+        style="border: 1px solid black; width: 100%"
         class="media"
       >
         <a class="media-left" href="#">
@@ -43,6 +43,79 @@
         </div>
         <p>&nbsp; Rating: {{ comment.rating }}/5</p>
       </div>
+    </div>
+    <div
+      [hidden]="!createComment"
+      style="border: 1px solid black; width: 70%"
+      class="media"
+    >
+      <a class="media-left" href="#">
+        <img
+          src="http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640-300x300.png"
+          style="width: 30px"
+        />
+      </a>
+      <p class="pull-right">
+        <small>Comment preview</small>
+      </p>
+      <div class="media-body">
+        <h4 class="media-heading user_name">{{ yourName }}</h4>
+        &nbsp; {{ yourComment }}
+      </div>
+      <p>&nbsp; Rating: 5/5</p>
+    </div>
+    <div class="col-xs-9 col-xs-offset-1">
+      <form (ngSubmit)="writeComment(commentForm)" #commentForm="ngForm">
+        <input
+          type="text"
+          placeholder="Your name"
+          required
+          ngModel
+          name="author"
+          style="width: 100%"
+          #author="ngModel"
+          (input)="startWritingComment($event)"
+          minlength="4"
+        />
+        <span class="help-block" *ngIf="!author.valid && author.touched"
+          >Your name is non-existent or is too short!</span
+        >
+        <textarea
+          class="col-sm-9 col-sm-offset-1"
+          name="comment"
+          id=""
+          rows="5"
+          style="overflow: auto; resize: none; width: 100%; border-radius: 4px;"
+          placeholder="Leave a comment..."
+          ngModel
+          required
+          #comment="ngModel"
+          (input)="startWritingComment($event)"
+        ></textarea>
+        <span class="help-block" *ngIf="!comment.valid && comment.touched"
+          >Please write a comment!</span
+        >
+        <div *ngFor="let rating of ratings">
+          <label>
+            <input
+              type="radio"
+              name="rating"
+              id=""
+              ngModel
+              [value]="rating"
+            />&nbsp;{{ rating }}
+          </label>
+        </div>
+
+        <br />
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!commentForm.valid"
+        >
+          Post your comment
+        </button>
+      </form>
     </div>
   </div>
 </div>
