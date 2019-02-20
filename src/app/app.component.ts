@@ -12,7 +12,7 @@ export class AppComponent {
   yourName: string = "";
   yourComment: string = "";
   createComment = false;
-  ratings = ["Set Rating"];
+  ratings = ["Set Rating", "Don't set (we'll set it anyway)"];
 
   constructor(private sortPipe: ArraySortPipe) {}
 
